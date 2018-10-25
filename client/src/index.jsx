@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 
 
 class PriceVolumeChart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+          
+        }
+        
+    }
+    
 
-
-    redner(){
+    render(){
         return (
             <div>
                 <h1>HELLO FROM REACT</h1>
