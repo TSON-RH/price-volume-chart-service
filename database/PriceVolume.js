@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var db = require('./index.js');
+const mongoose = require('mongoose');
+const db = require('./index.js');
 mongoose.Promise = global.Promise;
 
 const priceVolumeSchema = new mongoose.Schema({
@@ -13,6 +13,6 @@ const priceVolumeSchema = new mongoose.Schema({
     currentPrice: Number
 })
 
-var PriceVolume = mongoose.model('PriceVolume', priceVolumeSchema);
+const PriceVolume = mongoose.model('PriceVolume', priceVolumeSchema);
 
 module.exports = PriceVolume;
