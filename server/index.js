@@ -5,13 +5,10 @@ const app = express();
 const PORT = 3002;
 
 app.use(express.static(__dirname+'/../client/dist'));
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
 app.use(bodyParser.json())
 
 app.get('/api/volumes/symbols/:symbolId', function(req, res){
-  console.log(req.params.symbolId);
   PriceVolume.find({_id: req.params.symbolId}, (err, data)=>{
     if(err) console.log(err);
     res.setHeader('Content-Type', 'application/json');
