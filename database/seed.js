@@ -1,47 +1,47 @@
 const db = require('./index.js');
 const PriceVolume = require('./PriceVolume.js');
-var faker = require('faker');
+const faker = require('faker');
 
 const randomData = [];
 
 //Generate a array of numbers uniformly distant into 30 numbers for a given range.
-var generateUniformRange = function(min, max){
-    var diff = (max-min)/30;
-	var res = [];
-	for(var i = 0; i <30; i++){
+const generateUniformRange = function(min, max){
+    let diff = (max-min)/30;
+	let res = [];
+	for(let i = 0; i <30; i++){
 		res.push(+(min+diff*i).toFixed(2));
 	}
 	return res;
 }
 
 //Generate 30 random volumes for bar graph.
-var getRandomHeights = function(){
-    var res= [];
-    for(var i = 0; i <30; i++){
+const getRandomHeights = function(){
+    let res= [];
+    for(let i = 0; i <30; i++){
 		res.push(Math.round(Math.random()*100));
 	}
 	return res;
 }
 
 //Get Average price of randomly generated data
-var getAverage = function(pArr, vArr){
-    var total = 0;
-    for(var i = 0; i<30;i++){
+const getAverage = function(pArr, vArr){
+    let total = 0;
+    for(let i = 0; i<30;i++){
         total+=pArr[i]*vArr[i];
     }
     return total/(vArr.reduce((accum,x)=>{return accum+x}));
 }
 //Create 100 rows of data
-for(var i = 0; i <100; i++){
-    var min = parseFloat(faker.finance.amount(0.01, 10, 2));
-    var max = parseFloat(faker.finance.amount(min, min+100, 2));
-    var pricesArr = generateUniformRange(min, max);
-    var volumeArr = getRandomHeights();
-    var avg = getAverage(pricesArr, volumeArr);
-    var companyName = faker.company.companyName(0);
-    var companySymbol = companyName.toUpperCase();
+for(let i = 0; i <100; i++){
+    let min = parseFloat(faker.finance.amount(0.01, 10, 2));
+    let max = parseFloat(faker.finance.amount(min, min+100, 2));
+    let pricesArr = generateUniformRange(min, max);
+    let volumeArr = getRandomHeights();
+    let avg = getAverage(pricesArr, volumeArr);
+    let companyName = faker.company.companyName(0);
+    let companySymbol = companyName.toUpperCase();
 
-    var newData = {
+    let newData = {
         symbol: companySymbol,
         name: companyName,
         prices: pricesArr,
