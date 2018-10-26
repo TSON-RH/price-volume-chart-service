@@ -9,7 +9,7 @@ var generateUniformRange = function(min, max){
     var diff = (max-min)/30;
 	var res = [];
 	for(var i = 0; i <30; i++){
-		res.push(Math.round(min+diff*i));
+		res.push(+(min+diff*i).toFixed(2));
 	}
 	return res;
 }
