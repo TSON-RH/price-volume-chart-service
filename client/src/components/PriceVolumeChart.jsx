@@ -6,6 +6,14 @@ class PriceVolumeChart extends React.Component {
         this.state = {    
         } 
     }
+
+    componentDidMount(){
+        $.get('http://localhost:3002/api/volumes/symbols/5bd277855f59f4e021dd7a62', (err, data)=>{
+            if(err) console.log(err);
+            console.log(data);
+        })
+
+    }
     render(){
         return (
             <div>
