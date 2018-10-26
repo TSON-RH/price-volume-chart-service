@@ -17,6 +17,7 @@ app.get('/api/volumes/symbols/:symbolId', function(req, res){
   PriceVolume.find({_id: req.params.symbolId}, (err, data)=>{
     if(err) console.log(err);
     console.log(data);
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(data));
   })
 
