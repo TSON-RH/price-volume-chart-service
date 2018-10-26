@@ -10,7 +10,7 @@ class PriceVolumeChart extends React.Component {
     componentDidMount(){
         $.get('http://localhost:3002/api/volumes/symbols/5bd277855f59f4e021dd7a62', (err, data)=>{
             if(err) console.log(err);
-            console.log(data);
+            console.log(JSON.parse(data));
         })
 
     }
