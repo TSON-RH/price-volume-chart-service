@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "react-dev": "webpack -d --watch",
-    "db:setup": "node database/seed.js"
+    "db:setup": "node database/seed.js",
+    "test": "jest"
   },
   "author": "Kangsik Lee",
   "license": "ISC",
