@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 .vscode
 
 client/dist/bundle.js
 
 node_modules
-
-=======
-client/dist/bundle.js
-.vscode
->>>>>>> 15cff48d655584f108e2dacbd9a1ba320ba92a67
