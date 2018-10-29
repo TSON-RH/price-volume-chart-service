@@ -14,7 +14,7 @@ class PriceVolumeChart extends React.Component {
     }
     render(){
         return (
-            <div>
+            <div class="main">
                 <h1>HELLO FROM REACT</h1>
             </div>
         )
