@@ -21,10 +21,18 @@ afterAll(() => {
 });
 
 
-describe('Render Volume and Prices', () =>{
-    test('initial item page is correct', async () =>{
-        // var div = '.main h1';
-        // const title = await page.$eval(div, e=> e.textContent);
-        // expect(title).toEqual('HELLO FROM REACT');
+describe('Render Volume and Prices Chart', () =>{
+    //Preventing running testing before page load
+    beforeEach(async () =>{
+        await page.goto(pageUrl, {waitUntil: 'networkidle2'});
     });
+
+    test('Initial chart', async () =>{
+        var div = '#priceVolumeChart h1';
+        const title = await page.$eval(div, e=> e.textContent);
+        expect(title).toEqual('Price Paid on Robinhood');
+
+        //await page.waitFor(1500);
+    });
+
 }); 
