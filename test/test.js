@@ -1,4 +1,5 @@
-//import puppeteer from 'puppeteer';
+const puppeteer = require('puppeteer');
+const pageUrl = 'http://localhost:3002/';
 
 let page;
 let browser;
@@ -22,8 +23,8 @@ afterAll(() => {
 
 describe('Render Volume and Prices', () =>{
     test('initial item page is correct', async () =>{
-        var div = '.main h1';
-        const title = await page.$eval(div, e=> e.textContent);
-        expect(title).toEqual('HELLO FROM REACT');
+        // var div = '.main h1';
+        // const title = await page.$eval(div, e=> e.textContent);
+        // expect(title).toEqual('HELLO FROM REACT');
     });
-});
+}); 
