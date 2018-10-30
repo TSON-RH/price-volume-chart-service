@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const pageUrl = 'http://localhost:3002/';
-
 let page;
 let browser;
 const width = 1280;
@@ -20,7 +19,6 @@ afterAll(() => {
     browser.close();
 });
 
-
 describe('Render Data for Volume Chart', () =>{
     //Preventing running testing before page load
     beforeEach(async () =>{
@@ -31,7 +29,6 @@ describe('Render Data for Volume Chart', () =>{
     const divAverage = '#average';
     const divCurrent = '#current';
     const divDifference = '#difference';
-
 
     test('Chart page loaded', async () =>{
         var div = '#priceVolumeChart h1';
@@ -56,16 +53,15 @@ describe('Render Data for Volume Chart', () =>{
     })
 
     test('Calculated the difference in average price and current value percentage correctely', async () =>{
-    
+        
         const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);
         const loadedAverage = await page.$eval(divAverage, e => e.textContent);
-
+    
         let actual = await page.$eval(divDifference, e => e.textContent);
         let expectedValue = Math.abs(Math.round((loadedCurrent/loadedAverage*100-100)));
         let expected = expectedValue+'% Lower';
         expect(actual).toEqual(expected);
-    
-    });
         
-
+    });
 }); 
+
