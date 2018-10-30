@@ -38,7 +38,6 @@ describe('Render Data for Volume Chart', () =>{
         const title = await page.$eval(div, e=> e.textContent);
         expect(title).toEqual('Price Paid on Robinhood');
 
-        //await page.waitFor(1500);
     });
 
     test('Loaded with specific data from a company' , async () =>{
