@@ -42,17 +42,33 @@ describe('Render Volume and Prices Chart', () =>{
         const divCurrent = '#current';
 
         const loadedLowest = await page.$eval(divLowest, e => e.textContent);
-        expect(loadedLowest).toEqual('52 Week Low: $5.83');
+        expect(loadedLowest).toEqual('5.83');
 
         const loadedHeighest = await page.$eval(divHeighest, e => e.textContent);
-        expect(loadedHeighest).toEqual('52 Week High: $22.02');
+        expect(loadedHeighest).toEqual('22.02');
 
         const loadedAverage = await page.$eval(divAverage, e => e.textContent);
-        expect(loadedAverage).toEqual('Average Price Paid: $13.22858133669609');
+        expect(loadedAverage).toEqual('13.22858133669609');
 
-        const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);
-        expect(loadedCurrent).toEqual('Current Price: $11.92');
+        const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);  
+        expect(loadedCurrent).toEqual('11.92');
         
     })
+
+    test('Calculated the difference in average price and current value percentage correctely', async () =>{
+        const divDifference = '#difference';
+        const divAverage = '#average';
+        const divCurrent = '#current';
+
+        const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);
+        const loadedAverage = await page.$eval(divAverage, e => e.textContent);
+
+        let actual = await page.$eval(divDifference, e => e.textContent);
+        let expectedValue = Math.abs(Math.round((loadedCurrent/loadedAverage*100-100)));
+        let expected = expectedValue+'% Lower';
+        expect(actual).toEqual(expected);
+    
+    });
+        
 
 }); 
