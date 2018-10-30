@@ -16,7 +16,7 @@ beforeAll(async () => {
 })
 
 afterAll(() => {
-    browser.close();
+    //browser.close();
 });
 
 describe('Render Data for Volume Chart', () =>{
