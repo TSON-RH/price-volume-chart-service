@@ -8,7 +8,7 @@ const height = 720
 
 beforeAll(async () => {
     browser = await puppeteer.launch({
-        headless: false,
+        //headless: false,
         //slowMo: 80,
         args: [`--window-size=${width},${height}`]
     });
@@ -21,11 +21,17 @@ afterAll(() => {
 });
 
 
-describe('Render Volume and Prices Chart', () =>{
+describe('Render Data for Volume Chart', () =>{
     //Preventing running testing before page load
     beforeEach(async () =>{
         await page.goto(pageUrl, {waitUntil: 'networkidle2'});
     });
+    const divLowest = '#lowest';
+    const divHeighest = '#heighest';
+    const divAverage = '#average';
+    const divCurrent = '#current';
+    const divDifference = '#difference';
+
 
     test('Chart page loaded', async () =>{
         var div = '#priceVolumeChart h1';
@@ -36,19 +42,14 @@ describe('Render Volume and Prices Chart', () =>{
     });
 
     test('Loaded with specific data from a company' , async () =>{
-        const divLowest = '#lowest';
-        const divHeighest = '#heighest';
-        const divAverage = '#average';
-        const divCurrent = '#current';
-
         const loadedLowest = await page.$eval(divLowest, e => e.textContent);
         expect(loadedLowest).toEqual('5.83');
-
+        
         const loadedHeighest = await page.$eval(divHeighest, e => e.textContent);
         expect(loadedHeighest).toEqual('22.02');
 
         const loadedAverage = await page.$eval(divAverage, e => e.textContent);
-        expect(loadedAverage).toEqual('13.22858133669609');
+        expect(loadedAverage).toEqual('13.23');
 
         const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);  
         expect(loadedCurrent).toEqual('11.92');
@@ -56,10 +57,7 @@ describe('Render Volume and Prices Chart', () =>{
     })
 
     test('Calculated the difference in average price and current value percentage correctely', async () =>{
-        const divDifference = '#difference';
-        const divAverage = '#average';
-        const divCurrent = '#current';
-
+    
         const loadedCurrent = await page.$eval(divCurrent, e => e.textContent);
         const loadedAverage = await page.$eval(divAverage, e => e.textContent);
 
