@@ -16,24 +16,31 @@ class PriceVolumeChart extends React.Component {
         } 
     }
     componentDidMount(){
-        $.get('http://localhost:3002/api/volumes/symbols/5bd277855f59f4e021dd7a62', (data)=>{
-            console.log(data);
+        this.handleFetch();
+    }
+
+    handleFetch(id = '5bd277855f59f4e021dd7a62'){
+        $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
+            console.log(data[0]);
             this.setState({
-                symbol: data.symbol,
-                name: data.name,
-                prices: data.prices,
-                volumes: data.volumes,
-                lowest: data.lowest,
-                heighest: data.heighest,
-                averagePrice: data.averagePrice,
-                currentPrice: data.currentPrice
+                symbol: data[0].symbol,
+                name: data[0].name,
+                prices: data[0].prices,
+                volumes: data[0].volumes,
+                lowest: data[0].lowest,
+                heighest: data[0].heighest,
+                averagePrice: data[0].averagePrice,
+                currentPrice: data[0].currentPrice
             });
         })
     }
+
+
     render(){
         return (
-            <div class="main">
+            <div>
                 <h1>Price Paid on Robinhood</h1>
+                <h2 id='name'>Name: {this.state.name}</h2>
                 <h2 id='lowest'>52 Week Low: ${this.state.lowest}</h2>
                 <h2 id='heighest'>52 Week High: ${this.state.heighest}</h2>
                 <h2 id='average'>Average Price Paid: ${this.state.averagePrice}</h2>
