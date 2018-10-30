@@ -9,7 +9,7 @@ beforeAll(async () => {
     browser = await puppeteer.launch({
         //headless: false,
         //slowMo: 80,
-        args: [`--window-size=${width},${height} –no-sandbox –disable-setuid-sandbox`]
+        args: [`--window-size=${width},${height}`, '–no-sandbox’, ‘–disable-setuid-sandbox']
     });
     page = await browser.newPage();
     await page.setViewport({width, height});
