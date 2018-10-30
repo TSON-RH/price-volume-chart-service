@@ -9,14 +9,14 @@ beforeAll(async () => {
     browser = await puppeteer.launch({
         //headless: false,
         //slowMo: 80,
-        args: [`--window-size=${width},${height}`]
+        args: [`--window-size=${width},${height} –no-sandbox –disable-setuid-sandbox`]
     });
     page = await browser.newPage();
     await page.setViewport({width, height});
 })
 
 afterAll(() => {
-    //browser.close();
+    browser.close();
 });
 
 describe('Render Data for Volume Chart', () =>{
