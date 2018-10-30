@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const pageUrl = 'http://localhost:3002/';
+const pageUrl = 'http://localhost:3002';
 let page;
 let browser;
 const width = 1280;
