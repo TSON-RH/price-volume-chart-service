@@ -14,8 +14,12 @@ class PriceVolumeChart extends React.Component {
             heighest: 0,
             averagePrice: 0,
             currentPrice: 0,
-            difference:0
+            difference:0,
+            currentPriceIndex:0,
+            averagePriceIndex:0,
         } 
+        this.findBarGraphIndex = this.findBarGraphIndex.bind(this);
+        this.indexInRange = this.indexInRange.bind(this);
     }
     componentDidMount(){
         this.handleFetch();
@@ -25,7 +29,11 @@ class PriceVolumeChart extends React.Component {
         $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
             console.log(data[0]);
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
-
+            console.log(diff);
+            let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices);
+            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices);
+            console.log(currentPriceIndex);
+            console.log(averagePriceIndex);
             this.setState({
                 symbol: data[0].symbol,
                 name: data[0].name,
@@ -35,7 +43,9 @@ class PriceVolumeChart extends React.Component {
                 heighest: data[0].heighest,
                 averagePrice: data[0].averagePrice,
                 currentPrice: data[0].currentPrice,
-                difference: diff
+                difference: diff,
+                currentPriceIndex: currentPriceIndex,
+                averagePriceIndex: averagePriceIndex 
             });
         })
     }
@@ -43,20 +53,29 @@ class PriceVolumeChart extends React.Component {
         return Math.round(currentPrice/averagePrice*100-100);
     }
 
-    findBarGraphIndex(price){
+    findBarGraphIndex(price, prices){
         let left = 0;
-        let right = 19
-        let mid = -1;
+        let right = prices.length - 1;
+        let mid = 0;
         while(left<=right){
-            mid = right+(right-left)/2;
-            if(this.prices[mid] === price) return mid;
-            if(this.prices[mid] < price){
+            mid = Math.round((left+right)/2);
+            if(prices[mid] === price) return mid;
+            else if(prices[mid] < price){
                 left = mid+1;
             }else{
                 right = mid-1;
             }
         }
-        return left;
+        return mid;
+    }
+
+    indexInRange(i){
+        let index1 = this.state.currentPriceIndex;
+        let index2 = this.state.averagePriceIndex;
+        if(index1<index2){
+            return (index1<=i) && (i<=index2);
+        }
+        return (index2<=i) && (i<=index1);
     }
 
     
@@ -79,14 +98,9 @@ class PriceVolumeChart extends React.Component {
                     <g transform="translate(0,200) scale(1,-1)">
                     
                     {
-                        currentPriceIndex = this.findBarGraphIndex(this.state.currentPrice);
-                        averagePriceIndex = this.findBarGraphIndex(this.state.averagePrice);
-
-                        const rangeGreen = 
-
                         this.state.volumes.map((h, i)=>{
                             return(
-                            <rect rx="1" x={15*i} y="0" width="10" height={h} fill="#20ce99">
+                            <rect rx="1" x={15*i} y="0" width="10" height={h} fill={this.indexInRange(i)?"#20ce99": "#0e0d0d"}>
                             
                             </rect>)
                         })
