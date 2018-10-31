@@ -1,5 +1,8 @@
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import sinon from 'sinon';
+import { expect } from 'chai';
+import { mount } from 'enzyme';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -20,13 +23,20 @@ describe('<PriceVolumeChart />', () =>{
 
     it('Renders react component', () =>{
         const wrapper = render(<PriceVolumeChart />);
-        expect(wrapper.find(''))
+        const title = wrapper.find('#title').text();
         expect(title).toEqual('Price Paid on Robinhood');
-
     });
 
-    test('Displays with specific data from a company' , async () =>{
+    it('calls componentDidMount', () => {
+        sinon.spy(Foo.prototype, 'componentDidMount');
+        const wrapper = mount(<Foo />);
+        expect(Foo.prototype.componentDidMount).to.have.property('callCount', 1);
+        Foo.prototype.componentDidMount.restore();
+      });
+
+    it('Displays with specific data from a company' , () =>{
        
+        const wrapper = 
         expect(loadedLowest).toEqual('5.83');
         
         expect(loadedHeighest).toEqual('22.02');

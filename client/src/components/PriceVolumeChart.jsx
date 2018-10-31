@@ -44,7 +44,7 @@ class PriceVolumeChart extends React.Component {
     render(){
         return (
             <div>
-                <h1>Price Paid on Robinhood</h1>
+                <h1 id='title'>Price Paid on Robinhood</h1>
                 <h2>Name: <span id='name'>{this.state.name}</span></h2>
                 <h2>52 Week Low: $<span id='lowest'>{this.state.lowest}</span></h2>
                 <h2>52 Week High: $<span id='heighest'>{this.state.heighest}</span></h2>
