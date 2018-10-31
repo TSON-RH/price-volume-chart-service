@@ -53,21 +53,31 @@ class PriceVolumeChart extends React.Component {
                 <h2>Current Price: $<span id='current'>{this.state.currentPrice}</span></h2>
                 <h2 id='difference'><span>{Math.abs(this.state.difference)}</span>% {this.state.difference>0 ? 'Higher':'Lower'}</h2> */}
 
-                <svg viewBox="0 0 400 200" width="400" height="200"xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="0" width="400" height="200" id="bargraph" fill="black">
+                <svg viewBox="0 0 400 200" width="400" height="200">
+                    <rect x="0" y="0" width="400" height="200" id="bargraph" fill="#1b1b1d">
 
                     </rect>
+                    <g transform="translate(0,200) scale(1,-1)">
                     
-                    <g fill="white" >
                     {
-                        this.state.volumes.map((height, i)=>{
+                        this.state.volumes.map((h, i)=>{
                             return(
-                            <rect x={30*i} y="1000" width="10" height={height}>
+                            <rect rx="1" x={15*i} y="0" width="10" height={h} fill="#20ce99">
                             
                             </rect>)
                         })
-                        
+                    /*color Schemes*/
+                    /*
+                        avgText: #ffffff
+                        text:#8c8c8e
+                        not selected Bars: #0e0d0d 
+                    */
+                       
+
+                    
                     }
+                    
+    
                     </g>
                     
                 </svg>
