@@ -42,15 +42,15 @@ class PriceVolumeChart extends React.Component {
     getDifference(averagePrice, currentPrice){
         return Math.round(currentPrice/averagePrice*100-100);
     }
-    
-    currentPriceIndex(){
+
+    findBarGraphIndex(price){
         let left = 0;
         let right = 19
         let mid = -1;
         while(left<=right){
             mid = right+(right-left)/2;
-            if(this.prices[mid] === currentPrice) return mid;
-            if(this.prices[mid] < currentPrice){
+            if(this.prices[mid] === price) return mid;
+            if(this.prices[mid] < price){
                 left = mid+1;
             }else{
                 right = mid-1;
@@ -58,6 +58,8 @@ class PriceVolumeChart extends React.Component {
         }
         return left;
     }
+
+    
 
     render(){
         return (
@@ -77,8 +79,8 @@ class PriceVolumeChart extends React.Component {
                     <g transform="translate(0,200) scale(1,-1)">
                     
                     {
-                        currentPriceIndex = this.findCurrentPriceIndex();
-                        
+                        currentPriceIndex = this.findBarGraphIndex(this.state.currentPrice);
+                        averagePriceIndex = this.findBarGraphIndex(this.state.averagePrice);
 
                         const rangeGreen = 
 
