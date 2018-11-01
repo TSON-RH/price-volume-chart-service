@@ -17,10 +17,12 @@ class PriceVolumeChart extends React.Component {
             difference:0,
             currentPriceIndex:0,
             averagePriceIndex:0,
+            barColor: 'red',
         } 
         this.findBarGraphIndex = this.findBarGraphIndex.bind(this);
         this.indexInRange = this.indexInRange.bind(this);
         this.barWidth = 11.457627118644067;
+        
     }
 
     componentDidMount(){
@@ -31,7 +33,8 @@ class PriceVolumeChart extends React.Component {
         $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
             let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices);
-            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices);      
+            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices);
+            let barColor = diff > 0 ? "#20ce99" : "#ff4518";      
             this.setState({
                 symbol: data[0].symbol,
                 name: data[0].name,
@@ -43,8 +46,10 @@ class PriceVolumeChart extends React.Component {
                 currentPrice: data[0].currentPrice,
                 difference: diff,
                 currentPriceIndex: currentPriceIndex,
-                averagePriceIndex: averagePriceIndex 
+                averagePriceIndex: averagePriceIndex,
+                barColor: barColor
             });
+            
         })
     }
 
@@ -87,7 +92,7 @@ class PriceVolumeChart extends React.Component {
                         {
                             this.state.volumes.map((h, i)=>{
                                 return(
-                                <rect rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? "#20ce99" : "#0e0d0d"}>
+                                <rect rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
                                 </rect>
                                 )
                             })
@@ -95,8 +100,13 @@ class PriceVolumeChart extends React.Component {
                     </g>
                     <g transform="translate(0,200) scale(1,-1)">
                         <line x1="0" x2="676" y1="10" y2="10" stroke="#8c8c8e"></line>
-                        <line x1={this.state.currentPriceIndex * this.barWidth * 2} x2={this.state.currentPriceIndex * this.barWidth * 2} y1="10" y2="130" stroke="#20ce99"></line>
-                        <circle r="5" cx={this.state.currentPriceIndex * this.barWidth * 2} cy="10" fill="#20ce99"></circle>
+                        <line x1={this.state.currentPriceIndex * this.barWidth * 2} x2={this.state.currentPriceIndex * this.barWidth * 2} y1="10" y2="130" stroke={this.state.barColor}></line>
+                        <circle r="5" cx={this.state.currentPriceIndex * this.barWidth * 2} cy="10" fill={this.state.barColor}></circle>
+                        
+                    </g>
+                    <g fill={this.state.barColor}>
+                            <text x={this.state.currentPriceIndex * this.barWidth * 2 - 35} y="40" >{Math.abs(this.state.difference)}% {this.state.difference>0 ? 'Higher':'Lower'}</text>
+                            <text x={this.state.currentPriceIndex * this.barWidth * 2 - 35} y="60">Right Now</text>
                     </g>
                 </svg>
             </div>
