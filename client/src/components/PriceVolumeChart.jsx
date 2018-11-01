@@ -20,20 +20,18 @@ class PriceVolumeChart extends React.Component {
         } 
         this.findBarGraphIndex = this.findBarGraphIndex.bind(this);
         this.indexInRange = this.indexInRange.bind(this);
+        this.barWidth = 11.457627118644067;
     }
+
     componentDidMount(){
         this.handleFetch();
     }
 
     handleFetch(id = '5bd277855f59f4e021dd7a62'){
         $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
-            console.log(data[0]);
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
-            console.log(diff);
             let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices);
-            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices);
-            console.log(currentPriceIndex);
-            console.log(averagePriceIndex);
+            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices);      
             this.setState({
                 symbol: data[0].symbol,
                 name: data[0].name,
@@ -49,6 +47,7 @@ class PriceVolumeChart extends React.Component {
             });
         })
     }
+
     getDifference(averagePrice, currentPrice){
         return Math.round(currentPrice/averagePrice*100-100);
     }
@@ -78,44 +77,27 @@ class PriceVolumeChart extends React.Component {
         return (index2<=i) && (i<=index1);
     }
 
-    
-
     render(){
         return (
             <div>
                 <h1>Price Paid on Robinhood</h1>
-                {/* <h2>Name: <span id='name'>{this.state.name}</span></h2>
-                <h2>52 Week Low: $<span id='lowest'>{this.state.lowest}</span></h2>
-                <h2>52 Week High: $<span id='heighest'>{this.state.heighest}</span></h2>
-                <h2>Average Price Paid: $<span id='average'>{this.state.averagePrice.toFixed(2)}</span></h2>
-                <h2>Current Price: $<span id='current'>{this.state.currentPrice}</span></h2>
-                <h2 id='difference'><span>{Math.abs(this.state.difference)}</span>% {this.state.difference>0 ? 'Higher':'Lower'}</h2> */}
-
-                <svg viewBox="0 0 400 200" width="400" height="200">
-                    <rect x="0" y="0" width="400" height="200" id="bargraph" fill="#1b1b1d">
-
-                    </rect>
-                    <g transform="translate(0,200) scale(1,-1)">
-                    
-                    {
-                        this.state.volumes.map((h, i)=>{
-                            return(
-                            <rect rx="1" x={15*i} y="0" width="10" height={h} fill={this.indexInRange(i)?"#20ce99": "#0e0d0d"}>
-                            
-                            </rect>)
-                        })
-                    /*color Schemes*/
-                    /*
-                        avgText: #ffffff
-                        text:#8c8c8e
-                        not selected Bars: #0e0d0d 
-                    */
-
-                    }
-                    
-    
+                <svg viewBox="0 0 676 200" width="676" height="200">
+                    <rect x="0" y="0" width="676" height="200" id="bargraph" fill="#1b1b1d"></rect>
+                    <g transform="translate(0,180) scale(1,-1)">
+                        {
+                            this.state.volumes.map((h, i)=>{
+                                return(
+                                <rect rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? "#20ce99" : "#0e0d0d"}>
+                                </rect>
+                                )
+                            })
+                        }
                     </g>
-                    
+                    <g transform="translate(0,200) scale(1,-1)">
+                        <line x1="0" x2="676" y1="10" y2="10" stroke="#8c8c8e"></line>
+                        <line x1={this.state.currentPriceIndex * this.barWidth * 2} x2={this.state.currentPriceIndex * this.barWidth * 2} y1="10" y2="130" stroke="#20ce99"></line>
+                        <circle r="5" cx={this.state.currentPriceIndex * this.barWidth * 2} cy="10" fill="#20ce99"></circle>
+                    </g>
                 </svg>
             </div>
         )
