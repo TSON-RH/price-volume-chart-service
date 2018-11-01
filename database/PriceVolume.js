@@ -8,7 +8,7 @@ const priceVolumeSchema = new mongoose.Schema({
     prices: [Number],
     volumes: [Number],
     lowest: Number,
-    heighest: Number,
+    highest: Number,
     averagePrice: Number,
     currentPrice: Number
 })
