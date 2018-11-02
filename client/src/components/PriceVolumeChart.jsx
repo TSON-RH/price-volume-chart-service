@@ -52,6 +52,10 @@ class PriceVolumeChart extends React.Component {
             textAverage: {
                 fontSize  : '13px',
                 fill : "#ffffff"
+            },
+            infoBox: {
+                fontSize : '8px',
+                fill : "#cbcbcd"
             }
         
         }
@@ -89,6 +93,7 @@ class PriceVolumeChart extends React.Component {
 
     handleHover(e){
         console.log(e.target.id);
+        //stroke="white"
     }
 
     getDifference(averagePrice, currentPrice){
@@ -131,12 +136,33 @@ class PriceVolumeChart extends React.Component {
                         <g transform="translate(0,194) scale(1,-1)">
                             {
                                 this.state.volumes.map((h, i)=>{
-                                    return(
-                                    <rect onMouseEnter={this.handleHover} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
-                                    </rect>
+                                    return([
+                                        
+                                        <rect onMouseEnter={this.handleHover} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}></rect>
+
+                                        ]
+                                    
+                                    
                                     )
                                 })
                             }
+                        </g>
+
+                        <g>
+                            {//Info box
+                                this.state.volumes.map((h, i)=>{
+                                    return([
+                                        <g style={this.VolumeChartStyle.infoBox}>,
+                                        <rect x={this.barWidth*2*i-15} y={150-h} width="50" height="30" fill="#182b27" opacity="0.5"></rect>,
+
+                                        <text x={this.barWidth*2*i-5} y={150-h+10} >Week {i}</text>,
+                                        {/* <text x={this.barWidth*2*i} y={150-h+20} >${this.state.prices[i]}</text>, */}
+                                        <text x={this.barWidth*2*i-7} y="204" >${this.state.prices[i].toFixed(2)}</text>,
+                                        <text fontSize="13px" fill="#ffffff" x={this.barWidth*2*i-10} y={150-h+25} >Vol: {h}</text>,
+                                        </g>
+                                    ])
+                                })
+                            }           
                         </g>
                 
                         <g transform="translate(0,224) scale(1,-1)">
