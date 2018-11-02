@@ -17,11 +17,13 @@ class PriceVolumeChart extends React.Component {
             difference:0,
             currentPriceIndex:0,
             averagePriceIndex:0,
-            barColor: 'red'
+            barColor: 'red',
+            selectedBar: 0,
         } 
         this.findBarGraphIndex = this.findBarGraphIndex.bind(this);
         this.indexInRange = this.indexInRange.bind(this);
-        this.handleHover = this.handleHover.bind(this);
+        this.onBar = this.onBar.bind(this);
+        this.offBar = this.offBar.bind(this);
         this.barWidth = 11.46;
         this.VolumeChartStyle = {
             head : {
@@ -56,6 +58,13 @@ class PriceVolumeChart extends React.Component {
             infoBox: {
                 fontSize : '8px',
                 fill : "#cbcbcd"
+            },
+            onHovered: {
+                stroke:"white"
+            },
+
+            offHovered:{
+                stroke:"black"
             }
         
         }
@@ -91,10 +100,7 @@ class PriceVolumeChart extends React.Component {
         })
     }
 
-    handleHover(e){
-        console.log(e.target.id);
-        //stroke="white"
-    }
+    
 
     getDifference(averagePrice, currentPrice){
         return Math.round(currentPrice/averagePrice*100-100);
@@ -126,65 +132,74 @@ class PriceVolumeChart extends React.Component {
         return (index2<=i) && (i<=index1);
     }
 
+    onBar(e){
+        console.log(e.target);
+        this.setState({selectedBar: e.target.id});
+        
+    }
+
+    offBar(e){
+        this.setState({selectedBar: undefined});
+    }
+
     render(){
         return (
             <div style={this.VolumeChartStyle.chart}>
                 <h2 style={this.VolumeChartStyle.head} >Price Paid on Robinhood</h2>
                     <svg style={this.VolumeChartStyle.chart} viewBox="0 0 676 324" width="676" height="324">
                         <line x="0" y="0" width="676" fill="#f4f4f5"></line>
+                        {/* Chart Box */}
                         <rect x="0" y="0" width="676" height="324" id="bargraph" fill="#1b1b1d"></rect>
+                        {/* Bars */}
                         <g transform="translate(0,194) scale(1,-1)">
-                            {
-                                this.state.volumes.map((h, i)=>{
-                                    return([
-                                        
-                                        <rect onMouseEnter={this.handleHover} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}></rect>
-
-                                        ]
-                                    
-                                    
-                                    )
-                                })
-                            }
+                        {
+                            this.state.volumes.map((h, i)=>{
+                                return(
+                                    <rect onMouseEnter={this.onBar} onMouseLeave={this.OffBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}></rect>
+                                )
+                            })
+                        }
                         </g>
-
+                        {/* Info box */}
                         <g>
-                            {//Info box
-                                this.state.volumes.map((h, i)=>{
-                                    return([
-                                        <g style={this.VolumeChartStyle.infoBox}>,
-                                        <rect x={this.barWidth*2*i-15} y={150-h} width="50" height="30" fill="#182b27" opacity="0.5"></rect>,
+                        {
+                            this.state.volumes.map((h, i)=>{
+                                return([
+                                    <g style={this.VolumeChartStyle.infoBox}>,
+                                    <rect x={this.barWidth*2*i-15} y={150-h} width="50" height="30" fill="#182b27" opacity="0.5"></rect>,
 
-                                        <text x={this.barWidth*2*i-5} y={150-h+10} >Week {i}</text>,
-                                        {/* <text x={this.barWidth*2*i} y={150-h+20} >${this.state.prices[i]}</text>, */}
-                                        <text x={this.barWidth*2*i-7} y="204" >${this.state.prices[i].toFixed(2)}</text>,
-                                        <text fontSize="13px" fill="#ffffff" x={this.barWidth*2*i-10} y={150-h+25} >Vol: {h}</text>,
-                                        </g>
-                                    ])
-                                })
-                            }           
+                                    <text x={this.barWidth*2*i-5} y={150-h+10} >Week {i}</text>,
+                                    {/* <text x={this.barWidth*2*i} y={150-h+20} >${this.state.prices[i]}</text>, */}
+                                    <text x={this.barWidth*2*i-7} y="204" >${this.state.prices[i].toFixed(2)}</text>,
+                                    <text fontSize="13px" fill="#ffffff" x={this.barWidth*2*i-10} y={150-h+25} >Vol: {h}</text>,
+                                    </g>
+                                ])
+                            })
+                        }           
                         </g>
-                
+                        {/* Gray/Green line and Circle */}
                         <g transform="translate(0,224) scale(1,-1)">
                             <line x1="0" x2="676" y1="10" y2="10" stroke="#8c8c8e"></line>
                             <line x1={this.state.xPositionCurrentPrice} x2={this.state.xPositionCurrentPrice} y1="10" y2="150" stroke={this.state.barColor}></line>
                             <circle r="7" cx={this.state.xPositionCurrentPrice} cy="10" fill={this.state.barColor}></circle>
                             
                         </g>
+                        {/* Text On Top Tick */}
                         <g fill={this.state.barColor} transform="translate(0,24)" >
                                 <text x={this.state.currentPriceIndex * this.barWidth * 2 - 35} y="20" >{Math.abs(this.state.difference)}% {this.state.difference>0 ? 'Higher':'Lower'}</text>
                                 <text fontSize="13px" x={this.state.currentPriceIndex * this.barWidth * 2 - 28} y="40">Right Now</text>
                         </g>
+                        {/* Text under gray Line */}
                         <g style={this.VolumeChartStyle.textBottom} transform="translate(0,24)">
-                                <text x="0" y="230" >52 Week Low</text>
-                                <text x="0" y="250" >${this.state.lowest}</text>
-                                <text x="593" y="230" >52 Week High</text>
-                                <text x="630" y="250" >${this.state.highest}</text>
-                        </g>
-                        <g style={this.VolumeChartStyle.textAverage} transform="translate(0,24)">
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2} y="250" >Paid</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-10} y="270" >${this.state.averagePrice.toFixed(2)}</text>
+                            {/* Text Week Low High */}
+                            <text x="0" y="230" >52 Week Low</text>
+                            <text x="0" y="250" >${this.state.lowest}</text>
+                            <text x="593" y="230" >52 Week High</text>
+                            <text x="630" y="250" >${this.state.highest}</text>
+                            {/* Text Average  */}
+                            <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" fill="#ffffff">Average Price</text>
+                            <text x={this.state.averagePriceIndex*this.barWidth*2} y="250" fill="#ffffff">Paid</text>
+                            <text x={this.state.averagePriceIndex*this.barWidth*2-10} y="270" fill="#ffffff">${this.state.averagePrice.toFixed(2)}</text>
                         </g>
                     </svg>
             </div>
