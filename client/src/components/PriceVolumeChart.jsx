@@ -75,9 +75,6 @@ class PriceVolumeChart extends React.Component {
                 right = mid-1;
             }
         }
-        console.log('prices[left]: ',prices[left]);
-        console.log('price: :', price)
-        console.log("index: ",left);
         if(price < prices[left] && isHigher){
             return left-1;
         }else if(price < prices[left]){
