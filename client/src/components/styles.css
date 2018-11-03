@@ -20,8 +20,7 @@
         font-style: normal;
         font-weight:500;
         
-    }
-
+}
 .chartArea {
     fill:#1b1b1d;
 }
@@ -35,7 +34,8 @@
     fill: #cbcbcd;
 }
 .volumeText {
-    fill:#ffffff;
+    font-size: 13px;
+    fill: #ffffff;
 }
 .grayLine {
     stroke: #8c8c8e;
@@ -53,21 +53,10 @@
     letter-spacing: 0.25px;
     font-size  : 12px;
     fill       : #cbcbcd;
-};
+}
 
 .averageText {
     font-size  : 13px;
-    fill:#ffffff;
-}
-.box {
-    font-size : 8px;
-    fill : #cbcbcd;
-};
-.onHovered {
-    stroke:white
-};
-
-.offHovered {
-    stroke:black
+    fill :#ffffff;
 }
 
