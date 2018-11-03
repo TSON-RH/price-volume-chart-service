@@ -47,7 +47,7 @@ for(let i = 0; i <100; i++){
         prices: pricesArr,
         volumes: volumeArr,
         lowest: min,
-        heighest: max,
+        highest: max,
         averagePrice: avg,
         currentPrice: faker.finance.amount(min, max, 2)
     }
