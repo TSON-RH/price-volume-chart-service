@@ -1,0 +1,73 @@
+.head{
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-size: 26px;
+        font-weight:500;
+        letter-spacing: -0.14px;
+        height: 50px;
+        margin-block-end: 0px;
+        margin-block-start: 0px;
+        margin-inline-end: 0px;
+        margin-inline-start: 0px;
+        width: 674px;
+        background-color: #1b1b1d;
+        color: #ffffff;
+        font-family: "DIN Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.chart {
+        font-family: "DIN Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-style: normal;
+        font-weight:500;
+        
+    }
+
+.chartArea {
+    fill:#1b1b1d;
+}
+
+.infoBox {
+    fill:#182b27;
+    opacity:0.5;
+}
+.infoBoxText {
+    font-size:8px;
+    fill: #cbcbcd;
+}
+.volumeText {
+    fill:#ffffff;
+}
+.grayLine {
+    stroke: #8c8c8e;
+}
+
+.differenceText {
+    font-weight:400;
+}
+
+.rightNowText {
+    font-size:13px;
+}
+
+.textBottom {
+    letter-spacing: 0.25px;
+    font-size  : 12px;
+    fill       : #cbcbcd;
+};
+
+.averageText {
+    font-size  : 13px;
+    fill:#ffffff;
+}
+.box {
+    font-size : 8px;
+    fill : #cbcbcd;
+};
+.onHovered {
+    stroke:white
+};
+
+.offHovered {
+    stroke:black
+}
+
