@@ -132,13 +132,14 @@ class PriceVolumeChart extends React.Component {
         return (index2<=i) && (i<=index1);
     }
 
-    onBar(e){
+    onBar(id, e){
+        e.preventDefault();
         console.log(e.target);
-        this.setState({selectedBar: e.target.id});
+        this.setState({selectedBar: id});
         
     }
 
-    offBar(e){
+    offBar(id,e){
         this.setState({selectedBar: undefined});
     }
 
@@ -155,7 +156,7 @@ class PriceVolumeChart extends React.Component {
                         {
                             this.state.volumes.map((h, i)=>{
                                 return(
-                                    <rect onMouseEnter={this.onBar} onMouseLeave={this.OffBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}></rect>
+                                    <rect onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} stroke={this.state.selectedBar===i?"white":"black"} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}></rect>
                                 )
                             })
                         }
@@ -165,7 +166,7 @@ class PriceVolumeChart extends React.Component {
                         {
                             this.state.volumes.map((h, i)=>{
                                 return([
-                                    <g style={this.VolumeChartStyle.infoBox}>,
+                                    <g style={this.VolumeChartStyle.infoBox} opacity={this.state.selectedBar===i?"1":"0"}>,
                                     <rect x={this.barWidth*2*i-15} y={150-h} width="50" height="30" fill="#182b27" opacity="0.5"></rect>,
 
                                     <text x={this.barWidth*2*i-5} y={150-h+10} >Week {i}</text>,
