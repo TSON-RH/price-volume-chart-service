@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/api/volumes/symbols/:symbolId', function(req, res){
-  PriceVolume.find({_id: req.params.symbolId}, (err, data)=>{
+  PriceVolume.find({id: req.params.symbolId}, (err, data)=>{
     if(err) console.log(err);
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(data));
