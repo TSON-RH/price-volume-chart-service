@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { runInThisContext } from 'vm';
 import styles from './styles.css';
+import { relativeTimeThreshold } from 'moment';
 
 class PriceVolumeChart extends React.Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class PriceVolumeChart extends React.Component {
         this.indexInRange = this.indexInRange.bind(this);
         this.onBar = this.onBar.bind(this);
         this.offBar = this.offBar.bind(this);
+        this.handleFetch = this.handleFetch.bind(this);
         this.barWidth = 11.46;
     }
 
@@ -32,13 +34,14 @@ class PriceVolumeChart extends React.Component {
         this.handleFetch();
     }
 
-    handleFetch(id = '10'){
+    handleFetch(id = '4'){
         $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
             let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
             let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0);
             let barColor = diff > 0 ? "#20ce99" : "#f45531";  
             let xPositionCurrentPrice = (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth; 
+            console.log('asdasd')
             this.setState({
                 symbol: data[0].symbol,
                 name: data[0].name,
@@ -54,7 +57,17 @@ class PriceVolumeChart extends React.Component {
                 barColor: barColor,
                 xPositionCurrentPrice:xPositionCurrentPrice
             });
+
             console.log('currentPrice: ',data[0].currentPrice);
+            console.log('Prices: ',data[0].prices);
+            console.log('volumes: ',data[0].volumes);
+            console.log('diff:', diff);
+            console.log('currentPriceIndex:', currentPriceIndex);
+            console.log('averagePriceIndex:', averagePriceIndex);
+            console.log('barColor:', barColor);
+            console.log('xPositionCurrentPrice:', xPositionCurrentPrice);
+            
+
             
         })
     }
@@ -156,12 +169,12 @@ class PriceVolumeChart extends React.Component {
                         <text x="0" y="230">52 Week Low</text>
                         <text x="0" y="250">${this.state.lowest}</text>
                         <text x="600" y="230">52 Week High</text>
-                        <text x="640" y="250">${this.state.highest}</text>
+                        <text x="635" y="250">${this.state.highest}</text>
                         {/* Text Average  */}
                         <g className={styles.averageText}>
                         <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-10} y="250" >Paid</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-15} y="270" >${this.state.averagePrice.toFixed(2)}</text>
+                        <text x={this.state.averagePriceIndex*this.barWidth*2-2} y="250" >Paid</text>
+                        <text x={this.state.averagePriceIndex*this.barWidth*2-14} y="270" >${this.state.averagePrice.toFixed(2)}</text>
                     </g>
                     </g>
                     

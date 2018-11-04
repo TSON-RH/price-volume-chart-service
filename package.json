@@ -9,6 +9,19 @@
     "db:setup": "node database/seed.js",
     "test": "jest --coverage"
   },
+  "jest": {
+    "setupFiles":[
+      "./setUpFile.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "resolver": null
+  },
   "author": "Kangsik Lee",
   "license": "ISC",
   "devDependencies": {
@@ -21,7 +34,9 @@
     "css-loader": "^1.0.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "jest": "^23.6.0",
+    "jest-css-modules": "^1.1.0",
     "puppeteer": "^1.9.0",
     "react-test-renderer": "^16.6.0",
     "regenerator-runtime": "^0.12.1",
@@ -33,6 +48,8 @@
     "body-parser": "^1.17.0",
     "express": "^4.15.0",
     "faker": "^4.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-css-modules-transform": "^2.1.1",
     "jquery": "^3.1.1",
     "moment": "^2.22.2",
     "mongoose": "^4.13.17",
