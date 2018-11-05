@@ -51,6 +51,11 @@ describe('<PriceVolumeChart />', () => {
     expect(wrapper.exists('svg')).toEqual(true);
 
   });
+  it('renders rect exists',  () => {
+    const wrapper = shallow(<PriceVolumeChart />);
+    expect(wrapper.find('rect.chartArea').exists()).toEqual(true);
+
+  });
   it('renders background',  () => {
     mount(<PriceVolumeChart />);
     // wrapper.setState(state);
