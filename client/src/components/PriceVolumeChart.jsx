@@ -20,7 +20,9 @@ class PriceVolumeChart extends React.Component {
             currentPriceIndex:0,
             averagePriceIndex:0,
             barColor: 'black',
-            selectedBar: undefined,
+            selectedBarIndex: undefined,
+            selectedBarHeight: 0,
+            selectedBarPrice:0
         } 
         this.findBarGraphIndex = this.findBarGraphIndex.bind(this);
         this.indexInRange = this.indexInRange.bind(this);
@@ -55,7 +57,7 @@ class PriceVolumeChart extends React.Component {
                 currentPriceIndex: currentPriceIndex,
                 averagePriceIndex: averagePriceIndex,
                 barColor: barColor,
-                xPositionCurrentPrice:xPositionCurrentPrice
+                xPositionCurrentPrice:xPositionCurrentPrice,
             });
 
             console.log('currentPrice: ',data[0].currentPrice);
@@ -66,9 +68,6 @@ class PriceVolumeChart extends React.Component {
             console.log('averagePriceIndex:', averagePriceIndex);
             console.log('barColor:', barColor);
             console.log('xPositionCurrentPrice:', xPositionCurrentPrice);
-            
-
-            
         })
     }
     getDifference(averagePrice, currentPrice){
@@ -109,12 +108,20 @@ class PriceVolumeChart extends React.Component {
     onBar(id, e){
         e.preventDefault();
         console.log(e.target);
-        this.setState({selectedBar: id});
+        this.setState({
+            selectedBarIndex: id,
+            selectedBarHeight: this.state.volumes[id],
+            selectedBarPrice: this.state.prices[id]
+        });
         
     }
 
     offBar(id,e){
-        this.setState({selectedBar: undefined});
+        this.setState({
+            selectedBarIndex: undefined,
+            selectedBarHeight: 0,
+            selectedBarPrice: 0
+        });
     }
 
     render(){
@@ -129,7 +136,7 @@ class PriceVolumeChart extends React.Component {
                     {
                         this.state.volumes.map((h, i)=>{
                             return(
-                                <rect onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBar===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
+                                <rect onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBarIndex===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
                                     <animate attributeType="CSS" attributeName="height" from="0" to={h} dur="1s"/>
                                 </rect>
                             )
@@ -139,16 +146,15 @@ class PriceVolumeChart extends React.Component {
                     {/* Info box */}
                     <g>
                     {
-                        this.state.volumes.map((h, i)=>{
-                            return([
-                                <g display={this.state.selectedBar ===i ? "block":"none"}>,
-                                    <rect className={styles.infoBox} opacity='0.5' x={this.barWidth*2*i-15} y={150-h} width="50" height="30"/>,
-                                    <text className={styles.infoBoxText} x={this.barWidth*2*i-5} y={150-h+10}>Week {i}</text>,
-                                    <text className={styles.infoBoxText} x={this.barWidth*2*i-7} y="204">${this.state.prices[i].toFixed(2)}</text>,
-                                    <text className={styles.volumeText}x={this.barWidth*2*i-10} y={150-h+25}>Vol: {h}</text>,
-                                </g>
-                            ])
-                        })
+                         
+                        <g display={this.state.selectedBarIndex !== undefined ? "block":"none"}>,
+                            <rect className={styles.infoBox} opacity='0.5' x={this.barWidth*2*this.state.selectedBarIndex-15} y={150-this.state.selectedBarHeight} width="50" height="30"/>,
+                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-5} y={150-this.state.selectedBarHeight+10}>Week {this.state.selectedBarIndex}</text>,
+                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-7} y="204">${this.state.selectedBarPrice.toFixed(2)}</text>,
+                            <text className={styles.volumeText}x={this.barWidth*2*this.state.selectedBarIndex-10} y={150-this.state.selectedBarHeight+25}>Vol: {this.state.selectedBarHeight}</text>,
+                        </g>
+                            
+                        
                     }           
                     </g>
                     {/* Gray/Green line and Circle */}
