@@ -23,23 +23,6 @@ const state = {
 
 describe('<PriceVolumeChart />', () => {
 
-  // beforeEach(() => {
-  //   global.fetch = jest.fn().mockImplementation(() => {
-  //     const p = new Promise((resolve, reject) => {
-  //       resolve({
-  //         ok: true,
-  //         id: 0,
-  //         json: () => {
-  //           return [{id: 0, symbol: "JOD", name: "Schmidt, Price and Skiles", price: 573.43, date: "Thu Oct 25 2018 09:00:00 GMT-0700 (PDT)", rating: 22, owner: 692}];
-  //         },
-  //       });
-  //     });
-
-  //     return p;
-  //   });
-  // });
-
-
   it('renders header', () => {
     const wrapper = shallow(<PriceVolumeChart />);
     expect(wrapper.find('h2').text()).toEqual('Price Paid on Robinhood');
@@ -56,72 +39,6 @@ describe('<PriceVolumeChart />', () => {
     expect(wrapper.find('rect.chartArea').exists()).toEqual(true);
 
   });
-  
-  // it('caculates difference correctly', () =>{
 
-  //   wrapper.handleFetch()
-  // })
-
-  // it('renders ',  () => {
-    
-  // });
-
-//   it('renders an `.icon-star`', () => {
-//     const wrapper = shallow(<MyComponent />);
-//     expect(wrapper.find('.icon-star')).to.have.lengthOf(1);
-//   });
-
-//   it('renders children when passed in', () => {
-//     const wrapper = shallow((
-//       <MyComponent>
-//         <div className="unique" />
-//       </MyComponent>
-//     ));
-//     expect(wrapper.contains(<div className="unique" />)).to.equal(true);
-//   });
-
-//   it('simulates click events', () => {
-//     const onButtonClick = sinon.spy();
-//     const wrapper = shallow(<Foo onButtonClick={onButtonClick} />);
-//     wrapper.find('button').simulate('click');
-//     expect(onButtonClick).to.have.property('callCount', 1);
-//   });
-// });
-// describe('<PriceVolumeChart />', () =>{
-//     //Preventing running testing before page load
-//     beforeEach(() =>{
-        
-//     });
-  
-
-//     it('Renders Price Volume Chart Component', () =>{
-//         const wrapper = render(<PriceVolumeChart />);
-//         expect(wrapper.find(''))
-//         expect(title).toEqual('Price Paid on Robinhood');
-
-//     });
-
-//     it('Renders 30 bars', () => {
-
-//     });
-
-//     it('Renders ')
-
-//     it('Displays with specific data from a company' , async () =>{
-       
-//         expect(loadedLowest).toEqual('5.83');
-        
-//         expect(loadedHeighest).toEqual('22.02');
-
-//         expect(loadedAverage).toEqual('13.23');
-
-//         expect(loadedCurrent).toEqual('11.92');
-        
-//     })
-
-//     it('Displays the difference in average price and current value percentage correctely', async () =>{
-        
-        
-//     });
 }); 
 
