@@ -56,13 +56,7 @@ describe('<PriceVolumeChart />', () => {
     expect(wrapper.find('rect.chartArea').exists()).toEqual(true);
 
   });
-  it('renders background',  () => {
-    mount(<PriceVolumeChart />);
-    // wrapper.setState(state);
-    // expect(wrapper.find(rect)).to.have.lengthOf(1);
-    
-  });
-
+  
   // it('caculates difference correctly', () =>{
 
   //   wrapper.handleFetch()
