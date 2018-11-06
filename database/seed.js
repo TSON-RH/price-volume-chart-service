@@ -42,6 +42,7 @@ for(let i = 0; i <100; i++){
     let companySymbol = companyName.toUpperCase();
 
     let newData = {
+        id: i,
         symbol: companySymbol,
         name: companyName,
         prices: pricesArr,
