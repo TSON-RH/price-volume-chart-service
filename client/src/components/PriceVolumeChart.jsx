@@ -39,10 +39,10 @@ class PriceVolumeChart extends React.Component {
 
     handleFetch(id = '2'){
         fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
-            mode: "cors",
             headers: {
-                "Content-Type": "application/json"
-            },
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
         })
         .then(response => response.json())
         .then(data=>{
