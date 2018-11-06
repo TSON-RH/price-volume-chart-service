@@ -37,7 +37,7 @@ class PriceVolumeChart extends React.Component {
         
     }
 
-    handleFetch(id = '4'){
+    handleFetch(id = '2'){
         fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
             mode: "cors",
             headers: {
