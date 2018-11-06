@@ -1,15 +1,10 @@
 import React from 'react';
-import $ from 'jquery';
-import { runInThisContext } from 'vm';
 import styles from './styles.css';
-import { relativeTimeThreshold } from 'moment';
 
 class PriceVolumeChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {    
-            symbol: '',
-            name: '',
             prices: [],
             volumes: [],
             lowest: 0,
@@ -33,7 +28,8 @@ class PriceVolumeChart extends React.Component {
     }
 
     componentDidMount(){
-        this.handleFetch();
+        let randomIndex = Math.floor(Math.random()*100);
+        this.handleFetch(randomIndex);
         
     }
 
@@ -47,13 +43,7 @@ class PriceVolumeChart extends React.Component {
         .then(response => response.json())
         .then(data=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
-            let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
-            let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0);
-            let barColor = diff > 0 ? "#20ce99" : "#f45531";  
-            let xPositionCurrentPrice = (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth; 
             this.setState({
-                symbol: data[0].symbol,
-                name: data[0].name,
                 prices: data[0].prices,
                 volumes: data[0].volumes,
                 lowest: data[0].lowest,
@@ -61,10 +51,10 @@ class PriceVolumeChart extends React.Component {
                 averagePrice: data[0].averagePrice,
                 currentPrice: data[0].currentPrice,
                 difference: diff,
-                currentPriceIndex: currentPriceIndex,
-                averagePriceIndex: averagePriceIndex,
-                barColor: barColor,
-                xPositionCurrentPrice:xPositionCurrentPrice,
+                currentPriceIndex: this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0),
+                averagePriceIndex: this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0),
+                barColor: diff > 0 ? "#20ce99" : "#f45531",
+                xPositionCurrentPrice: (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth
             });
         })
         .catch(error=> console.log("Error: ", error))  
@@ -114,7 +104,7 @@ class PriceVolumeChart extends React.Component {
         
     }
 
-    offBar(id,e){
+    offBar(){
         this.setState({
             selectedBarIndex: undefined,
             selectedBarHeight: 0,
@@ -144,7 +134,6 @@ class PriceVolumeChart extends React.Component {
                     {/* Info box */}
                     <g>
                     {
-                         
                         <g display={this.state.selectedBarIndex !== undefined ? "block":"none"}>,
                             <rect className={styles.infoBox} opacity='0.5' x={this.barWidth*2*this.state.selectedBarIndex-15 || 0} y={150-this.state.selectedBarHeight || 0} width="50" height="30"/>,
                             <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-5 || 0} y={150-this.state.selectedBarHeight+10 || 0}>Week {this.state.selectedBarIndex}</text>,
@@ -175,13 +164,12 @@ class PriceVolumeChart extends React.Component {
                         <text x="600" y="230">52 Week High</text>
                         <text x="635" y="250">${this.state.highest}</text>
                         {/* Text Average  */}
-                        <g className={styles.averageText}>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-2} y="250" >Paid</text>
-                        <text x={this.state.averagePriceIndex*this.barWidth*2-14} y="270" >${this.state.averagePrice.toFixed(2)}</text>
+                            <g className={styles.averageText}>
+                            <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
+                            <text x={this.state.averagePriceIndex*this.barWidth*2-2} y="250" >Paid</text>
+                            <text x={this.state.averagePriceIndex*this.barWidth*2-14} y="270" >${this.state.averagePrice.toFixed(2)}</text>
+                        </g>
                     </g>
-                    </g>
-                    
                 </svg>
             </div>
         )
