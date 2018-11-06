@@ -134,7 +134,7 @@ class PriceVolumeChart extends React.Component {
                     {
                         this.state.volumes.map((h, i)=>{
                             return(
-                                <rect onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBarIndex===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
+                                <rect key={i}onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBarIndex===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
                                     <animate attributeType="CSS" attributeName="height" from="0" to={h} dur="1s"/>
                                 </rect>
                             )
@@ -146,10 +146,10 @@ class PriceVolumeChart extends React.Component {
                     {
                          
                         <g display={this.state.selectedBarIndex !== undefined ? "block":"none"}>,
-                            <rect className={styles.infoBox} opacity='0.5' x={this.barWidth*2*this.state.selectedBarIndex-15} y={150-this.state.selectedBarHeight} width="50" height="30"/>,
-                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-5} y={150-this.state.selectedBarHeight+10}>Week {this.state.selectedBarIndex}</text>,
-                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-7} y="204">${this.state.selectedBarPrice.toFixed(2)}</text>,
-                            <text className={styles.volumeText}x={this.barWidth*2*this.state.selectedBarIndex-10} y={150-this.state.selectedBarHeight+25}>Vol: {this.state.selectedBarHeight}</text>,
+                            <rect className={styles.infoBox} opacity='0.5' x={this.barWidth*2*this.state.selectedBarIndex-15 || 0} y={150-this.state.selectedBarHeight || 0} width="50" height="30"/>,
+                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-5 || 0} y={150-this.state.selectedBarHeight+10 || 0}>Week {this.state.selectedBarIndex}</text>,
+                            <text className={styles.infoBoxText} x={this.barWidth*2*this.state.selectedBarIndex-7 || 0} y="204">${this.state.selectedBarPrice.toFixed(2) || 0}</text>,
+                            <text className={styles.volumeText}x={this.barWidth*2*this.state.selectedBarIndex-10 || 0} y={150-this.state.selectedBarHeight+25 || 0}>Vol: {this.state.selectedBarHeight}</text>,
                         </g>
                             
                         
