@@ -34,17 +34,23 @@ class PriceVolumeChart extends React.Component {
 
     componentDidMount(){
         this.handleFetch();
+        
     }
 
     handleFetch(id = '4'){
-        console.log('HIHIHI');
-        $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
+        fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => response.json())
+        .then(data=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
             let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
             let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0);
             let barColor = diff > 0 ? "#20ce99" : "#f45531";  
             let xPositionCurrentPrice = (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth; 
-            console.log('asdasd')
             this.setState({
                 symbol: data[0].symbol,
                 name: data[0].name,
@@ -60,38 +66,8 @@ class PriceVolumeChart extends React.Component {
                 barColor: barColor,
                 xPositionCurrentPrice:xPositionCurrentPrice,
             });
-        });
-        // fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
-        //     mode: "cors",
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8"
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        // .then(response => response.json())
-        // .then(data=>{
-        //     let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
-        //     let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
-        //     let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0);
-        //     let barColor = diff > 0 ? "#20ce99" : "#f45531";  
-        //     let xPositionCurrentPrice = (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth; 
-        //     this.setState({
-        //         symbol: data[0].symbol,
-        //         name: data[0].name,
-        //         prices: data[0].prices,
-        //         volumes: data[0].volumes,
-        //         lowest: data[0].lowest,
-        //         highest: data[0].highest,
-        //         averagePrice: data[0].averagePrice,
-        //         currentPrice: data[0].currentPrice,
-        //         difference: diff,
-        //         currentPriceIndex: currentPriceIndex,
-        //         averagePriceIndex: averagePriceIndex,
-        //         barColor: barColor,
-        //         xPositionCurrentPrice:xPositionCurrentPrice,
-        //     });
-        // })
-        // .catch(error=> console.log("Error: ", error))  
+        })
+        .catch(error=> console.log("Error: ", error))  
     }
     getDifference(averagePrice, currentPrice){
         return Math.round(currentPrice/averagePrice*100-100);
