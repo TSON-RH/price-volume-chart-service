@@ -37,6 +37,7 @@ class PriceVolumeChart extends React.Component {
     }
 
     handleFetch(id = '4'){
+        console.log('HIHIHI');
         $.get(`http://localhost:3002/api/volumes/symbols/${id}`, (data)=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
             let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
@@ -59,16 +60,38 @@ class PriceVolumeChart extends React.Component {
                 barColor: barColor,
                 xPositionCurrentPrice:xPositionCurrentPrice,
             });
-
-            console.log('currentPrice: ',data[0].currentPrice);
-            console.log('Prices: ',data[0].prices);
-            console.log('volumes: ',data[0].volumes);
-            console.log('diff:', diff);
-            console.log('currentPriceIndex:', currentPriceIndex);
-            console.log('averagePriceIndex:', averagePriceIndex);
-            console.log('barColor:', barColor);
-            console.log('xPositionCurrentPrice:', xPositionCurrentPrice);
-        })
+        });
+        // fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
+        //     mode: "cors",
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8"
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        // .then(response => response.json())
+        // .then(data=>{
+        //     let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);
+        //     let currentPriceIndex = this.findBarGraphIndex(data[0].currentPrice, data[0].prices, diff>0);
+        //     let averagePriceIndex = this.findBarGraphIndex(data[0].averagePrice, data[0].prices, diff>0);
+        //     let barColor = diff > 0 ? "#20ce99" : "#f45531";  
+        //     let xPositionCurrentPrice = (data[0].currentPrice-data[0].lowest)/(data[0].highest-data[0].lowest)*676+this.barWidth; 
+        //     this.setState({
+        //         symbol: data[0].symbol,
+        //         name: data[0].name,
+        //         prices: data[0].prices,
+        //         volumes: data[0].volumes,
+        //         lowest: data[0].lowest,
+        //         highest: data[0].highest,
+        //         averagePrice: data[0].averagePrice,
+        //         currentPrice: data[0].currentPrice,
+        //         difference: diff,
+        //         currentPriceIndex: currentPriceIndex,
+        //         averagePriceIndex: averagePriceIndex,
+        //         barColor: barColor,
+        //         xPositionCurrentPrice:xPositionCurrentPrice,
+        //     });
+        // })
+        // .catch(error=> console.log("Error: ", error))  
     }
     getDifference(averagePrice, currentPrice){
         return Math.round(currentPrice/averagePrice*100-100);
@@ -107,7 +130,6 @@ class PriceVolumeChart extends React.Component {
 
     onBar(id, e){
         e.preventDefault();
-        console.log(e.target);
         this.setState({
             selectedBarIndex: id,
             selectedBarHeight: this.state.volumes[id],

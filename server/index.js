@@ -8,6 +8,7 @@ app.use(express.static(__dirname+'/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//API Service
 app.get('/api/volumes/symbols/:symbolId', function(req, res){
   PriceVolume.find({id: req.params.symbolId}, (err, data)=>{
     if(err) console.log(err);
