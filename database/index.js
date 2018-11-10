@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoUri = 'mongodb://localhost/price_volume_chart_service';
+const mongoUri = 'mongodb://mongo:27017';
 
 const db = mongoose.connect(mongoUri);
 
