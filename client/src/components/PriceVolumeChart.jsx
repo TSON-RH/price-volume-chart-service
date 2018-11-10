@@ -34,12 +34,7 @@ class PriceVolumeChart extends React.Component {
     }
 
     handleFetch(id = '2'){
-        fetch(`http://localhost:3002/api/volumes/symbols/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
+        fetch(`/api/volumes/symbols/${id}`)
         .then(response => response.json())
         .then(data=>{
             let diff = this.getDifference(data[0].averagePrice, data[0].currentPrice);

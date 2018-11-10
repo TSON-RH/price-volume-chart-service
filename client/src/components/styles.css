@@ -1,9 +1,13 @@
+body {
+    background-color: #1b1b1d;
+}
 .head{
+        border-bottom: 1px;
         border-color: black;
-        border-style: solid;
+        border-bottom-style: solid;
         border-width: 1px;
         font-size: 26px;
-        font-weight:500;
+        font-weight:bold;
         letter-spacing: -0.14px;
         height: 50px;
         margin-block-end: 0px;
@@ -12,8 +16,9 @@
         margin-inline-start: 0px;
         width: 674px;
         background-color: #1b1b1d;
-        color: #ffffff;
+        color: #fff;
         font-family: "DIN Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+        padding-top:10px;
 }
 .chart {
         font-family: "DIN Pro", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -60,4 +65,3 @@
     font-size  : 13px;
     fill :#ffffff;
 }
-
