@@ -13,13 +13,53 @@ app.use(function(req, res, next) {
   next();
 });
 //API Service
-app.get('/api/volumes/symbols/:id', function(req, res){
-  PriceVolume.find({id: req.params.id}, (err, data)=>{
-    if(err) console.log(err);
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(data));
+app.get('/api/volumes/symbols/:id', (req, res) => {
+  PriceVolume.find({id: req.params.id}, (err, data) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(data));
+    }
   })
 })
+//create new stock
+app.post('/api/volumes/symbols/:id', (req, res) => {
+  let newStock = new PriceVolume({ ...req.params });
+  newStock.save((err, doc) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      console.log("New stock created: ", doc);
+      res.status(201).end();
+    }
+  });
+});
+
+//update a stock
+app.put('/api/volumes/symbols/:id', (req, res) => {
+  PriceVolume.findOneAndUpdate({id: req.params.id}, {...req.params}, (err, doc) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      console.log("Successful update! ", doc)
+      res.status(200).end();
+    }
+  })
+});
+
+//delete a stock by id
+app.delete('/api/volumes/symbols/:id', (req, res) => {
+  PriceVolume.findOneAndRemove(req.params.id, (err) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      console.log("Delete successful!");
+      res.status(200).end();
+    }
+  })
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
