@@ -4,27 +4,23 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
 
 ## Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+
 
 ## Usage
 
 > Some usage instructions
 
 ## Requirements
+To start:
+  1. Install dependencies: npm install
+  2. Start server in terminal: mongo
+  3. In a separate tab of terminal, set up database and seed: npm run "npm run db:setup"
+  4. Start server in separate tab: "npm start"
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
-- Node 6.13.0
-- etc
 
 ## Development
 

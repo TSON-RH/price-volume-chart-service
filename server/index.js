@@ -4,6 +4,9 @@ const PriceVolume = require('../database/PriceVolume.js');
 const app = express();
 const PORT = 3002;
 
+//should update lastId with the last ID from the seeding script
+let lastId = 100; 
+
 app.use(express.static(__dirname+'/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -13,10 +16,12 @@ app.use(function(req, res, next) {
   next();
 });
 //API Service
-app.get('/api/volumes/symbols/:id', (req, res) => {
+//get works!
+
+app.get('/api/volumes/symbols/:id', (req, res, next) => {
   PriceVolume.find({id: req.params.id}, (err, data) => {
     if (err) {
-      return handleError(err);
+      next(err);
     } else {
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(data));
@@ -24,23 +29,29 @@ app.get('/api/volumes/symbols/:id', (req, res) => {
   })
 })
 //create new stock
-app.post('/api/volumes/symbols/:id', (req, res) => {
-  let newStock = new PriceVolume({ ...req.params });
-  newStock.save((err, doc) => {
+//To do: fix the params so that it actually gets sent
+// but I don't think it should with id in the url?
+// how can I find the new id?
+app.post('/api/volumes/symbols/new', (req, res, next) => {
+  let params = {...req.body};
+  lastId += 1; 
+  params.id = lastId; 
+  let newStock = new PriceVolume(params);
+  newStock.save((err) => {
     if (err) {
-      return handleError(err);
+      next(err);
     } else {
-      console.log("New stock created: ", doc);
+      console.log("New stock created with id ", params.id);
       res.status(201).end();
     }
   });
 });
 
-//update a stock
-app.put('/api/volumes/symbols/:id', (req, res) => {
-  PriceVolume.findOneAndUpdate({id: req.params.id}, {...req.params}, (err, doc) => {
+//update a stock -- this works!
+app.put('/api/volumes/symbols/:id', (req, res, next) => {
+  PriceVolume.findOneAndUpdate({id: req.params.id}, req.body, (err, doc) => {
     if (err) {
-      return handleError(err);
+      next(err);
     } else {
       console.log("Successful update! ", doc)
       res.status(200).end();
@@ -49,10 +60,11 @@ app.put('/api/volumes/symbols/:id', (req, res) => {
 });
 
 //delete a stock by id
-app.delete('/api/volumes/symbols/:id', (req, res) => {
-  PriceVolume.findOneAndRemove(req.params.id, (err) => {
+//this works!
+app.delete('/api/volumes/symbols/:id', (req, res, next) => {
+  PriceVolume.deleteOne({id: req.params.id}, (err) => {
     if (err) {
-      return handleError(err);
+      next(err);
     } else {
       console.log("Delete successful!");
       res.status(200).end();
