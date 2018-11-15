@@ -4,6 +4,9 @@ const PriceVolume = require('../database/PriceVolume.js');
 const app = express();
 const PORT = 3002;
 
+//should update lastId with the last ID from the seeding script
+let lastId = 100; 
+
 app.use(express.static(__dirname+'/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -13,13 +16,52 @@ app.use(function(req, res, next) {
   next();
 });
 //API Service
-app.get('/api/volumes/symbols/:id', function(req, res){
-  PriceVolume.find({id: req.params.id}, (err, data)=>{
-    if(err) console.log(err);
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(data));
+
+app.get('/api/volumes/symbols/:id', (req, res, next) => {
+  PriceVolume.find({id: req.params.id}, (err, data) => {
+    if (err) {
+      next(err);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.json(data);
+    }
   })
 })
+//create new stock
+app.post('/api/volumes/symbols/new', (req, res, next) => {
+  let params = {...req.body};
+  lastId += 1; 
+  params.id = lastId; 
+  let newStock = new PriceVolume(params);
+  newStock.save((err) => {
+    if (err) {
+      next(err);
+    }
+    res.status(201).end();
+  });
+});
+
+//update a stock -- this works!
+app.put('/api/volumes/symbols/:id', (req, res, next) => {
+  PriceVolume.findOneAndUpdate({id: req.params.id}, req.body, (err, doc) => {
+    if (err) {
+      next(err);
+    }
+    res.status(200).end();
+  })
+});
+
+//delete a stock by id
+
+app.delete('/api/volumes/symbols/:id', (req, res, next) => {
+  PriceVolume.deleteOne({id: req.params.id}, (err) => {
+    if (err) {
+      next(err);
+    }
+    res.status(200).end();
+  })
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
