@@ -16,7 +16,6 @@ app.use(function(req, res, next) {
   next();
 });
 //API Service
-//get works!
 
 app.get('/api/volumes/symbols/:id', (req, res, next) => {
   PriceVolume.find({id: req.params.id}, (err, data) => {
@@ -24,14 +23,11 @@ app.get('/api/volumes/symbols/:id', (req, res, next) => {
       next(err);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(data));
+      res.json(data);
     }
   })
 })
 //create new stock
-//To do: fix the params so that it actually gets sent
-// but I don't think it should with id in the url?
-// how can I find the new id?
 app.post('/api/volumes/symbols/new', (req, res, next) => {
   let params = {...req.body};
   lastId += 1; 
@@ -60,7 +56,7 @@ app.put('/api/volumes/symbols/:id', (req, res, next) => {
 });
 
 //delete a stock by id
-//this works!
+
 app.delete('/api/volumes/symbols/:id', (req, res, next) => {
   PriceVolume.deleteOne({id: req.params.id}, (err) => {
     if (err) {
