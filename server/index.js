@@ -36,10 +36,8 @@ app.post('/api/volumes/symbols/new', (req, res, next) => {
   newStock.save((err) => {
     if (err) {
       next(err);
-    } else {
-      console.log("New stock created with id ", params.id);
-      res.status(201).end();
     }
+    res.status(201).end();
   });
 });
 
@@ -48,10 +46,8 @@ app.put('/api/volumes/symbols/:id', (req, res, next) => {
   PriceVolume.findOneAndUpdate({id: req.params.id}, req.body, (err, doc) => {
     if (err) {
       next(err);
-    } else {
-      console.log("Successful update! ", doc)
-      res.status(200).end();
     }
+    res.status(200).end();
   })
 });
 
@@ -61,10 +57,8 @@ app.delete('/api/volumes/symbols/:id', (req, res, next) => {
   PriceVolume.deleteOne({id: req.params.id}, (err) => {
     if (err) {
       next(err);
-    } else {
-      console.log("Delete successful!");
-      res.status(200).end();
     }
+    res.status(200).end();
   })
 });
 
