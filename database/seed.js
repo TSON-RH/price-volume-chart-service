@@ -1,5 +1,5 @@
-const db = require('./index.js');
-const PriceVolume = require('./PriceVolume.js');
+// const db = require('./index.js');
+// const PriceVolume = require('./PriceVolume.js');
 const faker = require('faker');
 
 const randomData = [];
@@ -32,33 +32,40 @@ const getAverage = function(pArr, vArr){
     return total/(vArr.reduce((accum,x)=>{return accum+x}));
 }
 //Create 100 rows of data
-for(let i = 0; i <100; i++){
-    let min = parseFloat(faker.finance.amount(0.01, 10, 2));
-    let max = parseFloat(faker.finance.amount(min, min+100, 2));
-    let pricesArr = generateUniformRange(min, max);
-    let volumeArr = getRandomHeights();
-    let avg = getAverage(pricesArr, volumeArr);
-    let companyName = faker.company.companyName(0);
-    let companySymbol = companyName.toUpperCase();
+//creates array of 100 objects
+// for(let i = 0; i <100; i++){
+//     let min = parseFloat(faker.finance.amount(0.01, 10, 2));
+//     let max = parseFloat(faker.finance.amount(min, min+100, 2));
+//     let pricesArr = generateUniformRange(min, max);
+//     let volumeArr = getRandomHeights();
+//     let avg = getAverage(pricesArr, volumeArr);
+//     let companyName = faker.company.companyName(0);
+//     let companySymbol = companyName.toUpperCase();
 
-    let newData = {
-        id: i,
-        symbol: companySymbol,
-        name: companyName,
-        prices: pricesArr,
-        volumes: volumeArr,
-        lowest: min,
-        highest: max,
-        averagePrice: avg,
-        currentPrice: faker.finance.amount(min, max, 2)
-    }
-    randomData.push(newData);
-}
+//     let newData = {
+//         id: i,
+//         symbol: companySymbol,
+//         name: companyName,
+//         prices: pricesArr,
+//         volumes: volumeArr,
+//         lowest: min,
+//         highest: max,
+//         averagePrice: avg,
+//         currentPrice: faker.finance.amount(min, max, 2)
+//     }
+//     randomData.push(newData);
+// }
 
-//Insert into database
-const insertSamplePriceVolumes = function() {
-    PriceVolume.create(randomData)
-      .then(() => db.disconnect());
-  };
+// //Insert into database
+// const insertSamplePriceVolumes = function() {
+//     PriceVolume.create(randomData)
+//       .then(() => db.disconnect());
+//   };
   
-insertSamplePriceVolumes();
+// insertSamplePriceVolumes();
+
+module.exports = { 
+    generateUniformRange: generateUniformRange,
+    getAverage: getAverage,
+    getRandomHeights: getRandomHeights
+ }
