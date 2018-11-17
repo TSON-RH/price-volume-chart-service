@@ -3,36 +3,56 @@ const csvWriter = require('csv-write-stream');
 const faker = require('faker');
 const helper = require('./seed');
 
-const writer = csvWriter();
-const csvStream = fs.createWriteStream('./testData.csv', {flags: 'a'});
-writer.pipe(csvStream);
+//wrapper for csvWriter to handle backpressure
+class Writer {
+  constructor(file) {
+    this.writer = csvWriter();
+    this.writer.pipe(fs.createWriteStream(file, {flags: 'a'}))
+  }
+
+  write(obj) {
+    if (!this.writer.write(obj)) {
+      return new Promise(resolve => this.writer.once('drain', resolve))
+    }
+    return true;
+  }
   
-// for each new row
-for (let i = 0; i < 1e6; i += 1) {
-  let min = parseFloat(faker.finance.amount(0.01, 10, 2));
-  let max = parseFloat(faker.finance.amount(min, min + 100, 2));
-  let pricesArr = helper.generateUniformRange(min, max);
-  let volumeArr = helper.getRandomHeights();
-  let avg = (min + max) / 2;
-  let companySymbol = helper.getSymbol(i);
-
-  // make the row
-  let newRow = {
-    id: i,
-    symbol: companySymbol,
-    prices: pricesArr,
-    volumes: volumeArr,
-    lowest: min,
-    highest: max,
-    averagePrice: avg,
-    currentPrice: faker.finance.amount(min, max, 2)
+  end() {
+    this.writer.end();
   }
+}
 
-  // write row to csv
-  writer.write(newRow);
+(async() => {
+  const writer = new Writer('./noSQLdata.csv');
+
+  // for each new row
+  for (let i = 0; i < 1e7; i += 1) {
+    let min = parseFloat(faker.finance.amount(0.01, 10, 2));
+    let max = parseFloat(faker.finance.amount(min, min + 100, 2));
+    let pricesArr = helper.generateUniformRange(min, max);
+    let volumeArr = helper.getRandomHeights();
+    let avg = (min + max) / 2;
+    let companySymbol = helper.getSymbol(i);
+
+    // make the row
+    let newRow = {
+      id: i,
+      symbol: companySymbol,
+      prices: pricesArr,
+      volumes: volumeArr,
+      lowest: min,
+      highest: max,
+      averagePrice: avg,
+      currentPrice: faker.finance.amount(min, max, 2)
+    }
+
+    // write row to csv
+    const res = writer.write(newRow);
+
+    if (res instanceof Promise) {
+      await res;
+    }
   }
-
   writer.end();
-
-
+})();
 
