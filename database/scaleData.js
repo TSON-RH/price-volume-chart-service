@@ -16,14 +16,14 @@ for (let i = 0; i < 1e6; i += 1) {
   let volumeArr = helper.getRandomHeights();
   // let avg = helper.getAverage(pricesArr, volumeArr);
   let avg = (min + max) / 2;
-  let companyName = faker.company.companyName(0);
-  let companySymbol = companyName.toUpperCase();
+  // let companyName = faker.company.companyName(0);
+  let companySymbol = helper.getSymbol(i);
 
   // make the row
   let newRow = {
     id: i,
     symbol: companySymbol,
-    name: companyName,
+    // name: companyName,
     prices: pricesArr,
     volumes: volumeArr,
     lowest: min,

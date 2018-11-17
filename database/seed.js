@@ -31,41 +31,46 @@ const getAverage = function(pArr, vArr){
     }
     return total/(vArr.reduce((accum,x)=>{return accum+x}));
 }
-//Create 100 rows of data
-//creates array of 100 objects
-// for(let i = 0; i <100; i++){
-//     let min = parseFloat(faker.finance.amount(0.01, 10, 2));
-//     let max = parseFloat(faker.finance.amount(min, min+100, 2));
-//     let pricesArr = generateUniformRange(min, max);
-//     let volumeArr = getRandomHeights();
-//     let avg = getAverage(pricesArr, volumeArr);
-//     let companyName = faker.company.companyName(0);
-//     let companySymbol = companyName.toUpperCase();
 
-//     let newData = {
-//         id: i,
-//         symbol: companySymbol,
-//         name: companyName,
-//         prices: pricesArr,
-//         volumes: volumeArr,
-//         lowest: min,
-//         highest: max,
-//         averagePrice: avg,
-//         currentPrice: faker.finance.amount(min, max, 2)
-//     }
-//     randomData.push(newData);
-// }
-
-// //Insert into database
-// const insertSamplePriceVolumes = function() {
-//     PriceVolume.create(randomData)
-//       .then(() => db.disconnect());
-//   };
+const numToSymbol = {
+    '0': 'A', 
+    '1': 'B', 
+    '2': 'C', 
+    '3': 'D', 
+    '4': 'E', 
+    '5': 'F', 
+    '6': 'G', 
+    '7': 'H', 
+    '8': 'I', 
+    '9': 'J',
+    'a': 'K', 
+    'b': 'L', 
+    'c': 'M', 
+    'd': 'N', 
+    'e': 'O', 
+    'f': 'P', 
+    'g': 'Q', 
+    'h': 'R', 
+    'i': 'S', 
+    'j': 'T',
+    'k': 'U', 
+    'l': 'V', 
+    'm': 'W', 
+    'n': 'X', 
+    'o': 'Y', 
+    'p': 'Z',
+}
   
-// insertSamplePriceVolumes();
+  function getSymbol(number) {
+    const base26array = number.toString(26).split('');
+    const symbolArray = base26array.map(val => numToSymbol[val]);
+  
+    return symbolArray.join('');
+  }
 
 module.exports = { 
     generateUniformRange: generateUniformRange,
     getAverage: getAverage,
-    getRandomHeights: getRandomHeights
+    getRandomHeights: getRandomHeights,
+    getSymbol: getSymbol
  }
