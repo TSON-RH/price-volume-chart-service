@@ -3,16 +3,19 @@ const csvWriter = require('csv-write-stream');
 const faker = require('faker');
 const helper = require('./seed');
 
-const writer = csvWriter();
-const csvStream = fs.createWriteStream('./testData.csv', {flags: 'a'});
+const writer = csvWriter(
+  // {sendHeaders: false}
+  );
+const csvStream = fs.createWriteStream('./stockData.csv',
+ {flags: 'a'}
+ );
 writer.pipe(csvStream);
-  
+
+const chunk = 5e6;
 // for each new row
-for (let i = 0; i < 1e6; i += 1) {
+for (let i = chunk; i < chunk*2; i += 1) {
   let min = parseFloat(faker.finance.amount(0.01, 10, 2));
   let max = parseFloat(faker.finance.amount(min, min + 100, 2));
-  let pricesArr = helper.generateUniformRange(min, max);
-  let volumeArr = helper.getRandomHeights();
   let avg = (min + max) / 2;
   let companySymbol = helper.getSymbol(i);
 
@@ -20,8 +23,6 @@ for (let i = 0; i < 1e6; i += 1) {
   let newRow = {
     id: i,
     symbol: companySymbol,
-    prices: pricesArr,
-    volumes: volumeArr,
     lowest: min,
     highest: max,
     averagePrice: avg,
@@ -33,6 +34,3 @@ for (let i = 0; i < 1e6; i += 1) {
   }
 
   writer.end();
-
-
-
