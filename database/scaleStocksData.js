@@ -3,24 +3,6 @@ const csvWriter = require('csv-write-stream');
 const faker = require('faker');
 const helper = require('./seed');
 
-
-
-  // make the row
-  let newRow = {
-    id: i,
-    symbol: companySymbol,
-    lowest: min,
-    highest: max,
-    averagePrice: avg,
-    currentPrice: faker.finance.amount(min, max, 2)
-  }
-
-  // write row to csv
-  writer.write(newRow);
-  }
-
-  writer.end();
-
   //wrapper for csvWriter to handle backpressure
 class Writer {
   constructor(file) {
@@ -41,10 +23,10 @@ class Writer {
 }
 
 (async() => {
-  const writer = new Writer('./noSQLdata.csv');
+  const writer = new Writer('./stocksInfo.csv');
 
   // for each new row
-  for (let i = 0; i < chunk; i += 1) {
+  for (let i = 0; i < 1e7; i += 1) {
     let min = parseFloat(faker.finance.amount(0.01, 10, 2));
     let max = parseFloat(faker.finance.amount(min, min + 100, 2));
     let avg = ((min + max) / 2).toFixed(2);
