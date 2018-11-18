@@ -3,21 +3,7 @@ const csvWriter = require('csv-write-stream');
 const faker = require('faker');
 const helper = require('./seed');
 
-const writer = csvWriter(
-  // {sendHeaders: false}
-  );
-const csvStream = fs.createWriteStream('./stockData.csv',
- {flags: 'a'}
- );
-writer.pipe(csvStream);
 
-const chunk = 5e6;
-// for each new row
-for (let i = chunk; i < chunk*2; i += 1) {
-  let min = parseFloat(faker.finance.amount(0.01, 10, 2));
-  let max = parseFloat(faker.finance.amount(min, min + 100, 2));
-  let avg = (min + max) / 2;
-  let companySymbol = helper.getSymbol(i);
 
   // make the row
   let newRow = {
@@ -34,3 +20,52 @@ for (let i = chunk; i < chunk*2; i += 1) {
   }
 
   writer.end();
+
+  //wrapper for csvWriter to handle backpressure
+class Writer {
+  constructor(file) {
+    this.writer = csvWriter();
+    this.writer.pipe(fs.createWriteStream(file))
+  }
+
+  write(obj) {
+    if (!this.writer.write(obj)) {
+      return new Promise(resolve => this.writer.once('drain', resolve))
+    }
+    return true;
+  }
+  
+  end() {
+    this.writer.end();
+  }
+}
+
+(async() => {
+  const writer = new Writer('./noSQLdata.csv');
+
+  // for each new row
+  for (let i = 0; i < chunk; i += 1) {
+    let min = parseFloat(faker.finance.amount(0.01, 10, 2));
+    let max = parseFloat(faker.finance.amount(min, min + 100, 2));
+    let avg = ((min + max) / 2).toFixed(2);
+    let companySymbol = helper.getSymbol(i);
+  
+    let newRow = {
+      id: i,
+      symbol: companySymbol,
+      lowest: min,
+      highest: max,
+      averagePrice: avg,
+      currentPrice: faker.finance.amount(min, max, 2)
+    }
+
+    // write row to csv
+    const res = writer.write(newRow);
+
+    if (res instanceof Promise) {
+      await res;
+    }
+  }
+  writer.end();
+})();
+

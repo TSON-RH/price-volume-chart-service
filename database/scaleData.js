@@ -7,7 +7,7 @@ const helper = require('./seed');
 class Writer {
   constructor(file) {
     this.writer = csvWriter();
-    this.writer.pipe(fs.createWriteStream(file, {flags: 'a'}))
+    this.writer.pipe(fs.createWriteStream(file))
   }
 
   write(obj) {
@@ -31,7 +31,7 @@ class Writer {
     let max = parseFloat(faker.finance.amount(min, min + 100, 2));
     let pricesArr = helper.generateUniformRange(min, max);
     let volumeArr = helper.getRandomHeights();
-    let avg = (min + max) / 2;
+    let avg = ((min + max) / 2).toFixed(2);
     let companySymbol = helper.getSymbol(i);
 
     // make the row
