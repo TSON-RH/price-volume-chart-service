@@ -21,12 +21,6 @@ class Writer {
   }
 }
     
-
-
-// const csvStream = fs.createWriteStream('./stockHistory.csv',
-// //  {flags: 'a'}
-//  );
-// writer.pipe(csvStream);
   
 (async() => {
   const writer = new Writer('./stockHistory.csv');
