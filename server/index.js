@@ -1,8 +1,11 @@
+const nr = require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./pgQueries');
 const app = express();
 const PORT = 3002;
+
+process.title = "YJ express server";
 
 app.use(express.static(__dirname+'/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
