@@ -49,6 +49,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
+    "bluebird": "^3.5.3",
     "body-parser": "^1.17.0",
     "express": "^4.15.0",
     "faker": "^4.1.0",
@@ -59,6 +60,7 @@
     "moment": "^2.22.2",
     "mongoose": "^4.13.17",
     "npm": "^6.4.1",
+    "pg-promise": "^8.5.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "request": "^2.81.0"

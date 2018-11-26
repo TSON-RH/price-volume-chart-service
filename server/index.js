@@ -1,11 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const PriceVolume = require('../database/PriceVolume.js');
+const db = require('./pgQueries');
 const app = express();
 const PORT = 3002;
-
-//should update lastId with the last ID from the seeding script
-let lastId = 100; 
 
 app.use(express.static(__dirname+'/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -15,51 +12,33 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-//API Service
 
-app.get('/api/volumes/symbols/:id', (req, res, next) => {
-  PriceVolume.find({id: req.params.id}, (err, data) => {
-    if (err) {
-      next(err);
-    } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.json(data);
-    }
-  })
-})
-//create new stock
-app.post('/api/volumes/symbols/new', (req, res, next) => {
-  let params = {...req.body};
-  lastId += 1; 
-  params.id = lastId; 
-  let newStock = new PriceVolume(params);
-  newStock.save((err) => {
-    if (err) {
-      next(err);
-    }
-    res.status(201).end();
-  });
+//Get stock history by id
+//Tested!
+app.get('/api/volumes/symbols/:id', (req, res, next) => 
+  db.getHistorybyID(req, res, next))
+
+//add new stock history to existing stock
+//Tested!
+app.post('/api/volumes/symbols/:id', (req, res, next) => {
+  db.addWeek(req, res, next);
 });
 
-//update a stock -- this works!
+//add a new stock
+app.post('api/volumes/symbols/new', (req, res, next) => {
+  db.addStock(req, res, next);
+})
+
+
+//update a stock
+//Tested!
 app.put('/api/volumes/symbols/:id', (req, res, next) => {
-  PriceVolume.findOneAndUpdate({id: req.params.id}, req.body, (err, doc) => {
-    if (err) {
-      next(err);
-    }
-    res.status(200).end();
-  })
+  db.updateStock(req, res, next);
 });
 
 //delete a stock by id
-
 app.delete('/api/volumes/symbols/:id', (req, res, next) => {
-  PriceVolume.deleteOne({id: req.params.id}, (err) => {
-    if (err) {
-      next(err);
-    }
-    res.status(200).end();
-  })
+  db.deleteStock(req, res, next);
 });
 
 app.listen(PORT, () => {

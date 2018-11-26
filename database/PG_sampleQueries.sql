@@ -47,4 +47,9 @@ INSERT INTO stock_history VALUES
 INSERT INTO stock_info VALUES
 (10000000, 'VWYXK', 5.12, 14.22, 10.00, 10.00);
 
---adding index on symbol, which is unique
+-- update stock history of existing stock
+update stock_info SET average = 25 WHERE id=9999990;
+;
+
+
+
