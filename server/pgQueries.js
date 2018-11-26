@@ -24,7 +24,14 @@ function getHistorybyID(req, res, next) {
     AND (week >= 1)`, 
     [req.params.id])
     .then((data) => {
-      res.status(200).json(data)
+      let finalData = {};
+      finalData.lowest = parseFloat(data[0].lowest);
+      finalData.highest = parseFloat(data[0].highest);
+      finalData.averagePrice = parseFloat(data[0].average_price);
+      finalData.currentPrice = parseFloat(data[0].current_price);
+      finalData.prices = data.map((row) => {return parseFloat(row.price)});
+      finalData.volumes = data.map((row) => {return parseInt(row.volume)});
+      res.status(200).json([finalData])
     })
     .catch(err => {
       return next(err);
