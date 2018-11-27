@@ -11,7 +11,7 @@ export default function() {
   let id = Math.floor(Math.random() * 1e7);
   
   var payload = JSON.stringify({
-    week: 11,
+    week: 12,
     price: 3.50,
     volume: 78
   });

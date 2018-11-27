@@ -2,6 +2,7 @@ import http from 'k6/http';
 import { check } from 'k6';
 
 export let options = {
+  vus: 10,
   duration: "30s",
   rps: 1000
 };
@@ -17,7 +18,7 @@ export default function() {
 
   if (num <= 0.01) {
     var payload = JSON.stringify({
-      week: 11,
+      week: 12,
       price: 3.50,
       volume: 78
     });
