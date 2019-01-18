@@ -4,6 +4,8 @@
 ![](https://media.giphy.com/media/tI6pXAPLJdNWuYzEcC/giphy.gif)
 
 > Project description
+The histogram shows volumes of this stock traded in this app, over a price range (starting from the lowest price to the highest price in last 52 weeks.) It works as an indicator in determining a stock’s current value and predicting future price movement.
+
 
 ## Related Projects
 
