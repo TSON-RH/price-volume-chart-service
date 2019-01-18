@@ -2,9 +2,7 @@ body {
     background-color: #1b1b1d;
 }
 .head{
-        border-bottom: 1px;
-        border-color: black;
-        border-bottom-style: solid;
+        border-bottom: 1px solid #0e0d0d;
         border-width: 1px;
         font-size: 26px;
         font-weight:bold;
@@ -43,12 +41,17 @@ body {
     font-size: 13px;
     fill: #ffffff;
 }
+
+.bar {
+    stroke: #0e0d0d;
+}
+
 .grayLine {
     stroke: #8c8c8e;
 }
 
 .differenceText {
-    font-weight:400;
+    font-weight:bold;
 }
 
 .rightNowText {
@@ -62,6 +65,7 @@ body {
 }
 
 .averageText {
+    font-weight:bold;
     font-size  : 13px;
     fill :#ffffff;
 }

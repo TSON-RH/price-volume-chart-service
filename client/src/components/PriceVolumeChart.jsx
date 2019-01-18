@@ -30,10 +30,9 @@ class PriceVolumeChart extends React.Component {
     componentDidMount(){
         let randomIndex = Math.floor(Math.random()*100);
         this.handleFetch(randomIndex);
-        
     }
 
-    handleFetch(id = '2'){
+    handleFetch(id='2'){
         fetch(`/api/volumes/symbols/${id}`)
         .then(response => response.json())
         .then(data=>{
@@ -119,7 +118,7 @@ class PriceVolumeChart extends React.Component {
                     {
                         this.state.volumes.map((h, i)=>{
                             return(
-                                <rect key={i}onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBarIndex===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
+                                <rect className={styles.bar} key={i}onMouseEnter={(e)=>this.onBar(i,e)} onMouseLeave={this.offBar} rx="1" x={this.barWidth*2*i} y="0" width={this.barWidth} height={h} stroke={this.state.selectedBarIndex===i?"white":"black"} fill={this.indexInRange(i) ? this.state.barColor : "#0e0d0d"}>
                                     <animate attributeType="CSS" attributeName="height" from="0" to={h} dur="1s"/>
                                 </rect>
                             )
@@ -140,19 +139,19 @@ class PriceVolumeChart extends React.Component {
                     }           
                     </g>
                     {/* Gray/Green line and Circle */}
-                    <g transform="translate(0,224) scale(1,-1)">
+                    <g transform="translate(0,224) scale(1,-1)" display={this.state.prices.length !== 0 ? "block":"none"}>
                         <line className={styles.grayLine} x1="0" x2="676" y1="10" y2="10"/>
                         <line x1={this.state.xPositionCurrentPrice} x2={this.state.xPositionCurrentPrice} y1="10" y2="150" stroke={this.state.barColor}/>
                         <circle r="7" cx={this.state.xPositionCurrentPrice} cy="10" fill={this.state.barColor}/>
                         
                     </g>
                     {/* Text On Top Tick */}
-                    <g fill={this.state.barColor} transform="translate(0,24)">
+                    <g fill={this.state.barColor} transform="translate(0,24)" display={this.state.prices.length !== 0 ? "block":"none"}>
                             <text className={styles.differenceText} x={this.state.currentPriceIndex * this.barWidth * 2 - 35} y="20">{Math.abs(this.state.difference)}% {this.state.difference>0 ? 'Higher':'Lower'}</text>
                             <text className={styles.rightNowText} x={this.state.currentPriceIndex * this.barWidth * 2 - 28} y="40">Right Now</text>
                     </g>
                     {/* Text under gray Line */}
-                    <g className={styles.textBottom} transform="translate(0,24)">
+                    <g className={styles.textBottom} transform="translate(0,24)" display={this.state.prices.length !== 0 ? "block":"none"}>
                         {/* Text Week Low & High */}
                         <text x="0" y="230">52 Week Low</text>
                         <text x="0" y="250">${this.state.lowest}</text>
@@ -160,10 +159,10 @@ class PriceVolumeChart extends React.Component {
                         <text x="635" y="250">${this.state.highest}</text>
                         {/* Text Average  */}
                             <g className={styles.averageText}>
-                            <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
-                            <text x={this.state.averagePriceIndex*this.barWidth*2-2} y="250" >Paid</text>
+                                <text x={this.state.averagePriceIndex*this.barWidth*2-30} y="230" >Average Price</text>
+                                <text x={this.state.averagePriceIndex*this.barWidth*2-2} y="250" >Paid</text>
+                            </g>
                             <text x={this.state.averagePriceIndex*this.barWidth*2-14} y="270" >${this.state.averagePrice.toFixed(2)}</text>
-                        </g>
                     </g>
                 </svg>
             </div>
