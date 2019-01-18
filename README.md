@@ -1,7 +1,7 @@
 # Robinhood Price Volume Histogram Service
 ## Price Volume Histogram
 <img width="1280" alt="finalfecsnapshot" src="https://user-images.githubusercontent.com/35894017/50860719-84066f80-134b-11e9-99f0-f45c9a8baeec.png">
-!(https://media.giphy.com/media/tI6pXAPLJdNWuYzEcC/giphy.gif)
+![](https://media.giphy.com/media/tI6pXAPLJdNWuYzEcC/giphy.gif)
 
 > Project description
 
