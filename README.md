@@ -5,11 +5,12 @@
 ![](https://media.giphy.com/media/tI6pXAPLJdNWuYzEcC/giphy.gif)
 
 > Project description
+
 The histogram shows volumes of this stock traded in this app, over a price range (starting from the lowest price to the highest price in last 52 weeks.) It works as an indicator in determining a stock’s current value and predicting future price movement.
 
 
 ## Related Projects
-
+  - https://github.com/TSON-RH/price-volume-chart-proxy
   - https://github.com/TSON-RH/Service-People-Also-Bought
   - https://github.com/TSON-RH/buy-service
   - https://github.com/TSON-RH/Service-StockPriceChart
@@ -23,10 +24,10 @@ The histogram shows volumes of this stock traded in this app, over a price range
 - [ ] Clone the repo locally
 - [ ] Run `npm install` inside the directory to install dependencies.
 - [ ] Ensure that the MongoDB process is running on your computer (`mongod`).
-- [ ] Create the database by running `npm run seed`
-- [ ] Create the dist folder by running  `npm run dev`
+- [ ] Create the database by running `npm run db:setup`
+- [ ] Create the dist folder by running  `npm run react-dev`
 - [ ] Spin up the server on your maching by running `npm start`
-- [ ] Open up a browser and navigate to localhost:3003
+- [ ] Open up a browser and navigate to localhost:3002
 
 ## Requirements
 
