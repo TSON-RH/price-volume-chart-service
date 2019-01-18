@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const db = require('./index.js');
 mongoose.Promise = global.Promise;
 
-const connection = mongoose.createConnection("mongodb://localhost/price_volume_chart_service");
-
 const priceVolumeSchema = new mongoose.Schema({
     id: Number,
     symbol: String,
